@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videovalls Estiu Jove 2026</title>
+    <style>
+        /* Variables de color para un tono veraniego y juvenil */
+        :root {
+            --bg-color: #f0fdf4;
+            --header-bg: #10b981;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --accent-color: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 50px;
+        }
+
+        /* Encabezado */
+        header {
+            background: linear-gradient(135deg, var(--header-bg), #059669);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Contenedor de la cuadrícula */
+        .games-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        /* Tarjeta de cada juego */
+        .game-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Efecto al pasar el ratón */
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Contenedor de la imagen/miniatura */
+        .thumbnail-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* Relación de aspecto 16:9 */
+            background-color: #e5e7eb;
+            overflow: hidden;
+        }
+
+        .thumbnail-wrapper img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: scale 0.3s ease;
+        }
+
+        .game-card:hover .thumbnail-wrapper img {
+            scale: 1.05;
+        }
+
+        /* Título del juego */
+        .game-title {
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-top: 3px solid var(--accent-color);
+        }
+
+        /* Pie de página */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Videovalls Estiu Jove 2026</h1>
+        <p>¡Haz clic en cualquier miniatura y empieza a jugar!</p>
+    </header>
+
+    <main class="games-container">
+
+        <!-- JUEGO 1 -->
+        <a href="URL_DEL_JUEGO_1" target="_blank" class="game-card">
+            <div class="thumbnail-wrapper">
+                <!-- Reemplaza con la URL de la imagen de tu miniatura -->
+                <img src="https://picsum.photos/400/225?random=1" alt="Miniatura Juego 1">
+            </div>
+            <div class="game-title">Nombre del Juego 1</div>
+        </a>
+
+        <!-- JUEGO 2 -->
+        <a href="URL_DEL_JUEGO_2" target="_blank" class="game-card">
+            <div class="thumbnail-wrapper">
+                <img src="https://picsum.photos/400/225?random=2" alt="Miniatura Juego 2">
+            </div>
+            <div class="game-title">Nombre del Juego 2</div>
+        </a>
+
+        <!-- JUEGO 3 -->
+        <a href="URL_DEL_JUEGO_3" target="_blank" class="game-card">
+            <div class="thumbnail-wrapper">
+                <img src="https://picsum.photos/400/225?random=3" alt="Miniatura Juego 3">
+            </div>
+            <div class="game-title">Nombre del Juego 3</div>
+        </a>
+
+        <!-- JUEGO 4 -->
+        <a href="URL_DEL_JUEGO_4" target="_blank" class="game-card">
+            <div class="thumbnail-wrapper">
+                <img src="https://picsum.photos/400/225?random=4" alt="Miniatura Juego 4">
+            </div>
+            <div class="game-title">Nombre del Juego 4</div>
+        </a>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Videovalls Estiu Jove. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
