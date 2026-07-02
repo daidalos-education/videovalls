@@ -184,6 +184,27 @@
             background-color: #ff3399;
         }
 
+        /* --- BOTÓN CONTROLADOR DE MÚSICA RETRO --- */
+        .music-ctrl {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            background-color: var(--neon-yellow);
+            color: #000;
+            border: 3px solid var(--neon-cyan);
+            padding: 10px 15px;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px var(--neon-pink);
+            z-index: 100;
+            transition: all 0.1s ease;
+        }
+        .music-ctrl:hover {
+            box-shadow: 2px 2px 0px var(--neon-pink);
+            transform: translate(2px, 2px);
+        }
+
         /* --- ANIMACIONES RETRO --- */
         @keyframes flicker {
             0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
@@ -235,11 +256,11 @@
 
         <div class="game-card">
             <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500&q=80" alt="Pixel Invaders" class="game-img">
-            <div class="game-title-bar">PIXEL INVADERS</div>
+            <div class="game-title-bar">Dororo</div>
             
             <div class="game-overlay">
-                <h3 class="overlay-title">PIXEL INVADERS</h3>
-                <p class="overlay-desc">Defiende la Tierra de hordas alienígenas pixeladas. El clásico rompe-falanges que arruinó tus propinas.</p>
+                <h3 class="overlay-title">Dororo</h3>
+                <p class="overlay-desc">Basado en el manga Dororo, recupera todas la partes de tu cuerpo.</p>
                 <a href="#" target="_blank" class="game-link">
                     <button class="btn-play">START</button>
                 </a>
@@ -300,5 +321,113 @@
 
     </main>
 
+    <button class="music-ctrl" id="musicBtn">MUSIC: OFF</button>
+
+    <script>
+        // --- MOTOR DE AUDIO 8-BITS ---
+        let audioCtx = null;
+        let isPlaying = false;
+        let nextNoteTime = 0.0;
+        let currentNoteIndex = 0;
+        let timerId = null;
+
+        const tempo = 135; // Ritmo rápido y machacón (BPM)
+        const noteLength = 0.11; // Duración corta por nota para simular velocidad retro
+
+        // Frecuencias de las notas en Hz (Melodía estilo Cyberpunk/NES)
+        const C3 = 130.81, D3 = 146.83, Ds3 = 155.56, F3 = 174.61, G3 = 196.00, Gs3 = 207.65, As3 = 233.08;
+        const C4 = 261.63, D4 = 293.66, Ds4 = 311.13, F4 = 349.23, G4 = 392.00, Gs4 = 415.30, As4 = 466.16;
+
+        // Secuencia machacona en escala menor
+        const melody = [
+            C4, C4, Ds4, F4, G4, G4, Gs4, G4,
+            F4, F4, G4, F4, Ds4, D4, C4, B3=123.47,
+            C4, C4, Ds4, F4, G4, G4, As4, G4,
+            C4, As4, G4, F4, Ds4, D4, C4, 0
+        ];
+
+        function initAudio() {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        function play8BitTone(freq, time) {
+            if (freq === 0) return; // Silencio
+
+            // Oscilador principal (Onda de pulso cuadrada = Sonido clásico NES)
+            let osc = audioCtx.createOscillator();
+            let gainNode = audioCtx.createGain();
+            
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(freq, time);
+
+            // Envolvente de volumen (Ataque y caída brusca para dar el toque machacón)
+            gainNode.gain.setValueAtTime(0.08, time); // Volumen maestro bajo para no molestar
+            gainNode.gain.exponentialRampToValueAtTime(0.001, time + noteLength - 0.01);
+
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            osc.start(time);
+            osc.stop(time + noteLength);
+        }
+
+        function playNoiseDrum(time) {
+            // Generador de ruido simulado con oscilador de sierra desafinado para hacer un bombo/caja arcade
+            let osc = audioCtx.createOscillator();
+            let gainNode = audioCtx.createGain();
+
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(90, time);
+            osc.frequency.exponentialRampToValueAtTime(30, time + 0.08);
+
+            gainNode.gain.setValueAtTime(0.15, time);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, time + 0.08);
+
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            osc.start(time);
+            osc.stop(time + 0.08);
+        }
+
+        function scheduler() {
+            while (nextNoteTime < audioCtx.currentTime + 0.1) {
+                // Toca la melodía
+                play8BitTone(melody[currentNoteIndex], nextNoteTime);
+
+                // Añade ritmo machacón (bombo en los tiempos fuertes)
+                if (currentNoteIndex % 2 === 0) {
+                    playNoiseDrum(nextNoteTime);
+                }
+
+                nextNoteTime += noteLength;
+                currentNoteIndex = (currentNoteIndex + 1) % melody.length;
+            }
+            timerId = setTimeout(scheduler, 25);
+        }
+
+        // --- CONTROL DEL BOTÓN ---
+        const btn = document.getElementById('musicBtn');
+        btn.addEventListener('click', () => {
+            if (!audioCtx) initAudio();
+
+            if (!isPlaying) {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                nextNoteTime = audioCtx.currentTime;
+                currentNoteIndex = 0;
+                scheduler();
+                isPlaying = true;
+                btn.textContent = "MUSIC: ON 🕹️";
+                btn.style.backgroundColor = "var(--neon-cyan)";
+            } else {
+                clearTimeout(timerId);
+                isPlaying = false;
+                btn.textContent = "MUSIC: OFF";
+                btn.style.backgroundColor = "var(--neon-yellow)";
+            }
+        });
+    </script>
 </body>
 </html>
