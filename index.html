@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carajo Games</title>
+    <title>microGames</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <style>
@@ -79,7 +79,6 @@
             position: relative;
             overflow: hidden;
             aspect-ratio: 4 / 3; /* Mantiene proporción retro de pantalla */
-            cursor: pointer;
             box-shadow: 0 0 10px rgba(157, 0, 255, 0.3);
             transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
@@ -162,6 +161,11 @@
             margin-bottom: 15px;
         }
 
+        /* --- ENLACE Y BOTÓN DE JUEGO --- */
+        .game-link {
+            text-decoration: none;
+        }
+
         .btn-play {
             font-family: 'Press Start 2P', cursive;
             font-size: 0.7rem;
@@ -210,20 +214,22 @@
 <body>
 
     <header>
-        <h1>CARAJO GAMES</h1>
+        <h1>microGAMES</h1>
         <p>Estiu Actiu Valls 2026 (Daidalos.education)</p>
     </header>
 
     <main class="game-container">
 
         <div class="game-card">
-            <img src="https://raw.githubusercontent.com/daidalos-education/videovalls/main/bloom.png" alt="Cyber Run" class="game-img">
+            <img src="https://raw.githubusercontent.com/daidalos-education/videovalls/main/bloom.png" alt="Bloom" class="game-img">
             <div class="game-title-bar">Bloom</div>
             
             <div class="game-overlay">
-                <h3 class="overlay-title">Bloom (by Giovanna Parera)</h3>
-                <p class="overlay-desc">Navega por los mares reviviendo la vida de las islas de Bloom.</p>
-                <button class="btn-play">START</button>
+                <h3 class="overlay-title">Bloom</h3>
+                <p class="overlay-desc">(by Giovanna Parera)<br>Navega por los mares reviviendo la vida de las islas de Bloom.</p>
+                <a href="https://daidalos-education.github.io/bloom-2" target="_blank" class="game-link">
+                    <button class="btn-play">START</button>
+                </a>
             </div>
         </div>
 
@@ -234,7 +240,9 @@
             <div class="game-overlay">
                 <h3 class="overlay-title">PIXEL INVADERS</h3>
                 <p class="overlay-desc">Defiende la Tierra de hordas alienígenas pixeladas. El clásico rompe-falanges que arruinó tus propinas.</p>
-                <button class="btn-play">START</button>
+                <a href="#" target="_blank" class="game-link">
+                    <button class="btn-play">START</button>
+                </a>
             </div>
         </div>
 
@@ -245,7 +253,9 @@
             <div class="game-overlay">
                 <h3 class="overlay-title">NEON GRID</h3>
                 <p class="overlay-desc">Viaja a través del ciberespacio sintético. Mantén el ritmo con la música synthwave antes de que se acabe el tiempo.</p>
-                <button class="btn-play">START</button>
+                <a href="#" target="_blank" class="game-link">
+                    <button class="btn-play">START</button>
+                </a>
             </div>
         </div>
 
@@ -256,7 +266,9 @@
             <div class="game-overlay">
                 <h3 class="overlay-title">MAZE MASTER</h3>
                 <p class="overlay-desc">Un laberinto infinito lleno de fantasmas glotones. Encuentra las frutas secretas para conseguir la puntuación máxima.</p>
-                <button class="btn-play">START</button>
+                <a href="#" target="_blank" class="game-link">
+                    <button class="btn-play">START</button>
+                </a>
             </div>
         </div>
 
@@ -267,7 +279,9 @@
             <div class="game-overlay">
                 <h3 class="overlay-title">KUNG-FU FURY</h3>
                 <p class="overlay-desc">Lucha callejera en los suburbios de Nueva York. Domina los combos antes de que tu rival te deje K.O.</p>
-                <button class="btn-play">START</button>
+                <a href="#" target="_blank" class="game-link">
+                    <button class="btn-play">START</button>
+                </a>
             </div>
         </div>
 
@@ -278,7 +292,9 @@
             <div class="game-overlay">
                 <h3 class="overlay-title">TURBO DRIVE</h3>
                 <p class="overlay-desc">Pisa a fondo el acelerador de tu bólido rojo. Siente los gráficos vectoriales en 3D simulados a toda velocidad.</p>
-                <button class="btn-play">START</button>
+                <a href="#" target="_blank" class="game-link">
+                    <button class="btn-play">START</button>
+                </a>
             </div>
         </div>
 
