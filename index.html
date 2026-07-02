@@ -1,472 +1,173 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>microGames</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    
+    <title>Videovalls Estiu Jove 2026</title>
     <style>
-        /* --- VARIABLES DE COLOR RETRO --- */
+        /* Variables de color para un tono veraniego y juvenil */
         :root {
-            --bg-color: #0d0116;
-            --neon-pink: #ff007f;
-            --neon-cyan: #00f0ff;
-            --neon-yellow: #fffb00;
-            --neon-purple: #9d00ff;
-            --card-bg: #1a0826;
-            --text-color: #ffffff;
+            --bg-color: #f0fdf4;
+            --header-bg: #10b981;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --accent-color: #f59e0b;
         }
 
-        /* --- RESET Y ESTILOS GENERALES --- */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Share Tech Mono', monospace;
-            background-image: 
-                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 4px, 6px 100%; /* Efecto líneas de TV vieja (CRT) */
             padding-bottom: 50px;
         }
 
-        /* --- ENCABEZADO --- */
+        /* Encabezado */
         header {
+            background: linear-gradient(135deg, var(--header-bg), #059669);
+            color: white;
             text-align: center;
             padding: 40px 20px;
-            background: linear-gradient(180deg, #140224 0%, var(--bg-color) 100%);
-            border-bottom: 4px solid var(--neon-pink);
-            box-shadow: 0 5px 20px rgba(255, 0, 127, 0.4);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        h1 {
-            font-family: 'Press Start 2P', cursive;
+        header h1 {
             font-size: 2.5rem;
-            color: var(--neon-yellow);
-            text-shadow: 3px 3px 0px var(--neon-pink), -3px -3px 0px var(--neon-cyan);
-            animation: flicker 2s infinite alternate;
             margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
         }
 
         header p {
-            font-size: 1.2rem;
-            color: var(--neon-cyan);
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
 
-        /* --- CONTENEDOR PRINCIPAL (RESPONSIVE GRID) --- */
-        .game-container {
+        /* Contenedor de la cuadrícula */
+        .games-container {
             max-width: 1200px;
             margin: 40px auto;
             padding: 0 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 30px;
         }
 
-        /* --- TARJETA DE JUEGO (MINIATURA) --- */
+        /* Tarjeta de cada juego */
         .game-card {
             background-color: var(--card-bg);
-            border: 4px solid var(--neon-purple);
-            border-radius: 8px;
-            position: relative;
+            border-radius: 15px;
             overflow: hidden;
-            aspect-ratio: 4 / 3; /* Mantiene proporción retro de pantalla */
-            box-shadow: 0 0 10px rgba(157, 0, 255, 0.3);
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Efectos al pasar el ratón por la tarjeta */
+        /* Efecto al pasar el ratón */
         .game-card:hover {
-            transform: scale(1.05) rotate(-1deg);
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.8);
-            z-index: 10;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
-        /* Imagen del juego */
-        .game-img {
+        /* Contenedor de la imagen/miniatura */
+        .thumbnail-wrapper {
+            position: relative;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            image-rendering: pixelated; /* Fuerza aspecto de pixelart si usas imágenes reales */
+            padding-top: 56.25%; /* Relación de aspecto 16:9 */
+            background-color: #e5e7eb;
+            overflow: hidden;
         }
 
-        /* Título temporal en la miniatura (abajo) */
-        .game-title-bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.75);
-            padding: 10px;
-            text-align: center;
-            border-top: 2px solid var(--neon-purple);
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.8rem;
-            color: #fff;
-            transition: opacity 0.3s ease;
-        }
-
-        .game-card:hover .game-title-bar {
-            opacity: 0; /* Se oculta para dejar ver la descripción completa */
-        }
-
-        /* --- CAPA DE DESCRIPCIÓN (HOVER EFECT) --- */
-        .game-overlay {
+        .thumbnail-wrapper img {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(26, 8, 38, 0.95); /* Fondo oscuro semitransparente */
-            border: 4px solid var(--neon-pink);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            object-fit: cover;
+            transition: scale 0.3s ease;
+        }
+
+        .game-card:hover .thumbnail-wrapper img {
+            scale: 1.05;
+        }
+
+        /* Título del juego */
+        .game-title {
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
             text-align: center;
-            opacity: 0; /* Oculto por defecto */
-            transform: translateY(100%); /* Viene desde abajo */
-            transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-top: 3px solid var(--accent-color);
         }
 
-        /* Al hacer hover, se muestra la descripción */
-        .game-card:hover .game-overlay {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .overlay-title {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1rem;
-            color: var(--neon-yellow);
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
-        }
-
-        .overlay-desc {
-            font-size: 1.1rem;
-            line-height: 1.4;
-            color: #fff;
-            margin-bottom: 15px;
-        }
-
-        /* --- ENLACE Y BOTÓN DE JUEGO --- */
-        .game-link {
-            text-decoration: none;
-        }
-
-        .btn-play {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
-            background-color: var(--neon-pink);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            cursor: pointer;
-            box-shadow: 3px 3px 0px var(--neon-cyan);
-            transition: all 0.1s ease;
-        }
-
-        .btn-play:hover {
-            box-shadow: 1px 1px 0px var(--neon-cyan);
-            transform: translate(2px, 2px);
-            background-color: #ff3399;
-        }
-
-        /* --- BOTÓN CONTROLADOR DE MÚSICA RETRO --- */
-        .music-ctrl {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
-            background-color: var(--neon-yellow);
-            color: #000;
-            border: 3px solid var(--neon-cyan);
-            padding: 10px 15px;
-            cursor: pointer;
-            box-shadow: 4px 4px 0px var(--neon-pink);
-            z-index: 100;
-            transition: all 0.1s ease;
-        }
-        .music-ctrl:hover {
-            box-shadow: 2px 2px 0px var(--neon-pink);
-            transform: translate(2px, 2px);
-        }
-
-        /* --- ANIMACIONES RETRO --- */
-        @keyframes flicker {
-            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-                text-shadow: 3px 3px 0px var(--neon-pink), -3px -3px 0px var(--neon-cyan);
-            }
-            20%, 24%, 55% {
-                text-shadow: none;
-            }
-        }
-
-        /* --- RESPONSIVE ADAPTATIONS (MOBILE) --- */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.6rem;
-            }
-            header p {
-                font-size: 0.9rem;
-            }
-            .game-overlay {
-                padding: 10px;
-            }
-            .overlay-desc {
-                font-size: 0.9rem;
-            }
+        /* Pie de página */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #6b7280;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>microGAMES</h1>
-        <p>Estiu Actiu Valls 2026 (Daidalos.education)</p>
+        <h1>Videovalls Estiu Jove 2026</h1>
+        <p>¡Haz clic en cualquier miniatura y empieza a jugar!</p>
     </header>
 
-    <main class="game-container">
+    <main class="games-container">
 
-        <div class="game-card">
-            <img src="https://raw.githubusercontent.com/daidalos-education/videovalls/main/bloom.png" alt="Bloom" class="game-img">
-            <div class="game-title-bar">Bloom</div>
-            
-            <div class="game-overlay">
-                <h3 class="overlay-title">Bloom</h3>
-                <p class="overlay-desc">(by Giovanna Parera)<br>Navega por los mares reviviendo la vida de las islas de Bloom.</p>
-                <a href="https://daidalos-education.github.io/bloom-3" target="_blank" class="game-link">
-                    <button class="btn-play">START</button>
-                </a>
+        <!-- JUEGO 1 -->
+        <a href="https://daidalos-education.github.io/bloom-1/" target="_blank" class="game-card">
+            <div class="thumbnail-wrapper">
+                <!-- Reemplaza con la URL de la imagen de tu miniatura -->
+                <img src="https://github.com/daidalos-education/videovalls/blob/main/bloom.png" alt="Miniatura Juego 1">
             </div>
-        </div>
+            <div class="game-title">Bloom</div>
+        </a>
 
-        <div class="game-card">
-            <img src="https://raw.githubusercontent.com/daidalos-education/videovalls/main/dororo.png" alt="Dororo" class="game-img">
-            <div class="game-title-bar">Dororo</div>
-            
-            <div class="game-overlay">
-                <h3 class="overlay-title">Dororo</h3>
-                <p class="overlay-desc">(by Belén Custodi) Basado en el manga Dororo, recupera todas la partes de tu cuerpo.</p>
-                <a href="https://daidalos-education.github.io/dororo-3" target="_blank" class="game-link">
-                    <button class="btn-play">START</button>
-                </a>
+        <!-- JUEGO 2 -->
+        <a href="URL_DEL_JUEGO_2" target="_blank" class="game-card">
+            <div class="thumbnail-wrapper">
+                <img src="https://picsum.photos/400/225?random=2" alt="Miniatura Juego 2">
             </div>
-        </div>
+            <div class="game-title">Nombre del Juego 2</div>
+        </a>
 
-        <div class="game-card">
-            <img src="https://raw.githubusercontent.com/daidalos-education/videovalls/main/detective.png" alt="Neon Grid" class="game-img">
-            <div class="game-title-bar">Alien Detective 3D</div>
-            
-            <div class="game-overlay">
-                <h3 class="overlay-title">Alien Detective 3D</h3>
-                <p class="overlay-desc">(by Carolina Parrales) Un alien está matando a sus amigos. Averigua quién es y destrúyelo.</p>
-                <a href="https://daidalos-education.github.io/detective-3" target="_blank" class="game-link">
-                    <button class="btn-play">START</button>
-                </a>
+        <!-- JUEGO 3 -->
+        <a href="URL_DEL_JUEGO_3" target="_blank" class="game-card">
+            <div class="thumbnail-wrapper">
+                <img src="https://picsum.photos/400/225?random=3" alt="Miniatura Juego 3">
             </div>
-        </div>
+            <div class="game-title">Nombre del Juego 3</div>
+        </a>
 
-        <div class="game-card">
-            <img src="https://raw.githubusercontent.com/daidalos-education/videovalls/main/alejandro.png" alt="Maze Master" class="game-img">
-            <div class="game-title-bar">Alejandro y su espada legendaria</div>
-            
-            <div class="game-overlay">
-                <h3 class="overlay-title">Alejandro y su espada legendaria</h3>
-                <p class="overlay-desc">(by Enric Llombart) Monstruos, monstruos y más monstruos.</p>
-                <a href="https://daidalos-education.github.io/alejandro-3" target="_blank" class="game-link">
-                    <button class="btn-play">START</button>
-                </a>
+        <!-- JUEGO 4 -->
+        <a href="URL_DEL_JUEGO_4" target="_blank" class="game-card">
+            <div class="thumbnail-wrapper">
+                <img src="https://picsum.photos/400/225?random=4" alt="Miniatura Juego 4">
             </div>
-        </div>
-
-        <div class="game-card">
-            <img src="https://raw.githubusercontent.com/daidalos-education/videovalls/main/boxeo.png" alt="Street Fighter" class="game-img">
-            <div class="game-title-bar">Boxea o vengo a tu casa</div>
-            
-            <div class="game-overlay">
-                <h3 class="overlay-title">Boxea o vengo a tu casa</h3>
-                <p class="overlay-desc">(by Pau Torres) Épicas batallas en un ring de vida o muerte.</p>
-                <a href="https://daidalos-education.github.io/boxeo-3" target="_blank" class="game-link">
-                    <button class="btn-play">START</button>
-                </a>
-            </div>
-        </div>
-
-        <div class="game-card">
-            <img src="https://raw.githubusercontent.com/daidalos-education/videovalls/main/misterio.png" alt="Retro Race" class="game-img">
-            <div class="game-title-bar">Misterio en Valleumbrío</div>
-            
-            <div class="game-overlay">
-                <h3 class="overlay-title">Misterio en Valleumbrío</h3>
-                <p class="overlay-desc">(by Giuliana Alvarez) Resuelve el misterio de este pueblo maldito.</p>
-                <a href="https://daidalos-education.github.io/misterio-3" target="_blank" class="game-link">
-                    <button class="btn-play">START</button>
-                </a>
-            </div>
-        </div>
-
-        <div class="game-card">
-            <img src="https://raw.githubusercontent.com/daidalos-education/videovalls/main/rabbit.png" alt="Retro Race" class="game-img">
-            <div class="game-title-bar">Rabbit Velocity 3D</div>
-            
-            <div class="game-overlay">
-                <h3 class="overlay-title">Rabbit Velocity 3D</h3>
-                <p class="overlay-desc">(by Déneb Parera) ¡Salta conejito!.</p>
-                <a href="https://daidalos-education.github.io/rabbit-3" target="_blank" class="game-link">
-                    <button class="btn-play">START</button>
-                </a>
-            </div>
-        </div>
-
-        <div class="game-card">
-            <img src="https://raw.githubusercontent.com/daidalos-education/videovalls/main/recolecta.png" alt="Retro Race" class="game-img">
-            <div class="game-title-bar">Recolecta o perd</div>
-            
-            <div class="game-overlay">
-                <h3 class="overlay-title">Recolecta o perd</h3>
-                <p class="overlay-desc">(by Ona Miquel) Ves a la fiesta si atropellar a nadie.</p>
-                <a href="https://daidalos-education.github.io/recolecta-3" target="_blank" class="game-link">
-                    <button class="btn-play">START</button>
-                </a>
-            </div>
-        </div>
-
-        <div class="game-card">
-            <img src="https://raw.githubusercontent.com/daidalos-education/videovalls/main/murder.png" alt="Retro Race" class="game-img">
-            <div class="game-title-bar">The murder</div>
-            
-            <div class="game-overlay">
-                <h3 class="overlay-title">The murder</h3>
-                <p class="overlay-desc">(by Nerea Parrales) Localiza al asesino en un laberinto misterioso.</p>
-                <a href="https://daidalos-education.github.io/murder-3" target="_blank" class="game-link">
-                    <button class="btn-play">START</button>
-                </a>
-            </div>
-        </div>
+            <div class="game-title">Nombre del Juego 4</div>
+        </a>
 
     </main>
 
-    <button class="music-ctrl" id="musicBtn">MUSIC: OFF</button>
+    <footer>
+        <p>&copy; 2026 Videovalls Estiu Jove. Todos los derechos reservados.</p>
+    </footer>
 
-    <script>
-        // --- MOTOR DE AUDIO 8-BITS ---
-        let audioCtx = null;
-        let isPlaying = false;
-        let nextNoteTime = 0.0;
-        let currentNoteIndex = 0;
-        let timerId = null;
-
-        const tempo = 135; // Ritmo rápido y machacón (BPM)
-        const noteLength = 0.11; // Duración corta por nota para simular velocidad retro
-
-        // Frecuencias de las notas en Hz (Melodía estilo Cyberpunk/NES)
-        const C3 = 130.81, D3 = 146.83, Ds3 = 155.56, F3 = 174.61, G3 = 196.00, Gs3 = 207.65, As3 = 233.08;
-        const C4 = 261.63, D4 = 293.66, Ds4 = 311.13, F4 = 349.23, G4 = 392.00, Gs4 = 415.30, As4 = 466.16;
-
-        // Secuencia machacona en escala menor
-        const melody = [
-            C4, C4, Ds4, F4, G4, G4, Gs4, G4,
-            F4, F4, G4, F4, Ds4, D4, C4, B3=123.47,
-            C4, C4, Ds4, F4, G4, G4, As4, G4,
-            C4, As4, G4, F4, Ds4, D4, C4, 0
-        ];
-
-        function initAudio() {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-
-        function play8BitTone(freq, time) {
-            if (freq === 0) return; // Silencio
-
-            // Oscilador principal (Onda de pulso cuadrada = Sonido clásico NES)
-            let osc = audioCtx.createOscillator();
-            let gainNode = audioCtx.createGain();
-            
-            osc.type = 'square';
-            osc.frequency.setValueAtTime(freq, time);
-
-            // Envolvente de volumen (Ataque y caída brusca para dar el toque machacón)
-            gainNode.gain.setValueAtTime(0.08, time); // Volumen maestro bajo para no molestar
-            gainNode.gain.exponentialRampToValueAtTime(0.001, time + noteLength - 0.01);
-
-            osc.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-
-            osc.start(time);
-            osc.stop(time + noteLength);
-        }
-
-        function playNoiseDrum(time) {
-            // Generador de ruido simulado con oscilador de sierra desafinado para hacer un bombo/caja arcade
-            let osc = audioCtx.createOscillator();
-            let gainNode = audioCtx.createGain();
-
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(90, time);
-            osc.frequency.exponentialRampToValueAtTime(30, time + 0.08);
-
-            gainNode.gain.setValueAtTime(0.15, time);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, time + 0.08);
-
-            osc.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-
-            osc.start(time);
-            osc.stop(time + 0.08);
-        }
-
-        function scheduler() {
-            while (nextNoteTime < audioCtx.currentTime + 0.1) {
-                // Toca la melodía
-                play8BitTone(melody[currentNoteIndex], nextNoteTime);
-
-                // Añade ritmo machacón (bombo en los tiempos fuertes)
-                if (currentNoteIndex % 2 === 0) {
-                    playNoiseDrum(nextNoteTime);
-                }
-
-                nextNoteTime += noteLength;
-                currentNoteIndex = (currentNoteIndex + 1) % melody.length;
-            }
-            timerId = setTimeout(scheduler, 25);
-        }
-
-        // --- CONTROL DEL BOTÓN ---
-        const btn = document.getElementById('musicBtn');
-        btn.addEventListener('click', () => {
-            if (!audioCtx) initAudio();
-
-            if (!isPlaying) {
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-                nextNoteTime = audioCtx.currentTime;
-                currentNoteIndex = 0;
-                scheduler();
-                isPlaying = true;
-                btn.textContent = "MUSIC: ON 🕹️";
-                btn.style.backgroundColor = "var(--neon-cyan)";
-            } else {
-                clearTimeout(timerId);
-                isPlaying = false;
-                btn.textContent = "MUSIC: OFF";
-                btn.style.backgroundColor = "var(--neon-yellow)";
-            }
-        });
-    </script>
 </body>
 </html>
